@@ -12,11 +12,23 @@ body {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+/* The 0.2 represents 20% opacity. Change to 0.5 for a more solid look. */
+    background: rgba(255, 255, 255, 0.2); 
+    
+    /* This adds the "frosted glass" blur effect to whatever is behind the box */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+
     padding: 2.5rem;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     text-align: center;
-    backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
-    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+    max-width: 450px;
+}
+
+/* Make sure your text is still readable on busy backgrounds */
+h1, p {
+    color: #ffffff; /* Changing text to white often looks better on transparent glass */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* Adds a shadow to make text pop */
 }
