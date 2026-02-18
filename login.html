@@ -1,26 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - My World</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Sign In</h2>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <br>
-        <button id="action-btn">Submit</button>
-        </br>
-        <p><a href="index.html" style="color: white; font-size: 0.8rem;">Go Back Home</a></p>
-    </div>
+<div class="container">
+    <h2>Sign In</h2>
+    <input type="text" id="userInput" placeholder="Username">
+    <input type="password" id="passInput" placeholder="Password">
+    
+    <button id="action-btn" onclick="validateLogin()">Submit</button>
+    
+    <p id="error-msg" style="color: #ff4d4d; display: none; font-size: 0.8rem;">Invalid Credentials!</p>
+    <p><a href="index.html" style="color: white; font-size: 0.8rem;">Go Back Home</a></p>
+</div>
 
-    <script>
-        const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
-        const randomIndex = Math.floor(Math.random() * myImages.length);
-        document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
-    </script>
-</body>
-</html>
+<script>
+    // 1. YOUR "DATABASE" - Update these as needed
+    const validCreds = {
+        "admin": "shiva123",
+        "leela": "password456",
+        "guest": "welcome2026"
+    };
+
+    function validateLogin() {
+        const user = document.getElementById('userInput').value;
+        const pass = document.getElementById('passInput').value;
+        const error = document.getElementById('error-msg');
+
+        // 2. CHECK: Does the username exist AND does the password match?
+        if (validCreds[user] && validCreds[user] === pass) {
+            alert("Access Granted! Redirecting...");
+            // Redirect to a "secret" page or back home
+            window.location.href = "index.html"; 
+        } else {
+            // Show error message
+            error.style.display = 'block';
+            // Clear fields
+            document.getElementById('passInput').value = "";
+        }
+    }
+
+    // Background randomizer remains the same
+    const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+    const randomIndex = Math.floor(Math.random() * myImages.length);
+    document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
+</script>
