@@ -24,7 +24,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 450px;
+    max-width: 250px;
     
     /* Adds a thin light border to define the edges of the glass */
     border: 1px solid rgba(255, 255, 255, 0.4);
