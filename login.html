@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - My World</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Sign In</h2>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button id="action-btn">Submit</button>
+        <p><a href="index.html" style="color: white; font-size: 0.8rem;">Go Back Home</a></p>
+    </div>
+
+    <script>
+        const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+        const randomIndex = Math.floor(Math.random() * myImages.length);
+        document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
+    </script>
+</body>
+</html>
