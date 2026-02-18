@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    // Security Check: If the "Key" isn't found, redirect to login
+    if (sessionStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html";
+    }
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - My World</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (sessionStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+    </script>
+    <style>
+        .events-grid { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 20px; max-width: 800px; margin: 50px auto; }
+        .section-card { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
+        .photo-gallery img { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; margin-right: 10px; border: 2px solid rgba(255,255,255,0.5); }
+        iframe { width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); }
+        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; float: right; }
+    </style>
+</head>
+<body>
+
+<div class="events-grid">
+    <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">Logout</button>
+    
+    <div class="section-card">
+        <h3>📸 Recent Photos</h3>
+        <div class="photo-gallery">
+            <img src="images/img1.JPG">
+            <img src="images/img2.JPG">
+            <img src="images/img3.JPG">
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h3>🏃 Recent Activities</h3>
+        <ul>
+            <li>Morning Routine: Completed 5,000 steps.</li>
+            <li>Managed AWS Domain Controller infrastructure.</li>
+            <li>Conducted health review at age 35.</li>
+        </ul>
+    </div>
+
+    <div class="section-card">
+        <h3>🎥 YouTube Videos</h3>
+        <iframe height="250" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="section-card">
+        <h3>📅 Upcoming Events</h3>
+        <p>• IT Patch Management Review - 2026/02/07</p>
+        <p>• Daily Health Task: 5000 Steps</p>
+    </div>
+</div>
+
+<script>
+    const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+    document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
+</script>
+
+</body>
+</html>

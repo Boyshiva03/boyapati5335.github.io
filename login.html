@@ -18,22 +18,23 @@
     };
 
     function validateLogin() {
-        const user = document.getElementById('userInput').value;
-        const pass = document.getElementById('passInput').value;
-        const error = document.getElementById('error-msg');
+    const user = document.getElementById('userInput').value;
+    const pass = document.getElementById('passInput').value;
+    const error = document.getElementById('error-msg');
 
-        // 2. CHECK: Does the username exist AND does the password match?
-        if (validCreds[user] && validCreds[user] === pass) {
-            alert("Access Granted! Redirecting...");
-            // Redirect to a "secret" page or back home
-            window.location.href = "index.html"; 
-        } else {
-            // Show error message
-            error.style.display = 'block';
-            // Clear fields
-            document.getElementById('passInput').value = "";
-        }
+    const validCreds = {
+        "admin": "shiva123"
+    };
+
+    if (validCreds[user] && validCreds[user] === pass) {
+        // This sets a temporary "Key" in the browser
+        sessionStorage.setItem("isLoggedIn", "true"); 
+        alert("Access Granted!");
+        window.location.href = "events.html"; 
+    } else {
+        error.style.display = 'block';
     }
+}
 
     // Background randomizer remains the same
     const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
