@@ -11,6 +11,28 @@
         <h1>Welcome to my World!</h1>
         <p>Boyapati Sudheeksha Shivanshi.</p>
         <p>With Love: <strong>Shiva & Leela</strong></p>
+        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; background: #2ea44f; color: white; font-weight: bold;">
+            Refresh Background
+        </button>
     </div>
+
+    <script>
+        // 1. List your image paths here. 
+        // Make sure these files exist in your "images" folder!
+        const myImages = [
+            'images/img1.jpg',
+            'images/img2.jpg',
+            'images/img3.jpg',
+            'images/img4.jpg'
+        ];
+
+        // 2. Logic to pick a random index
+        const randomIndex = Math.floor(Math.random() * myImages.length);
+        const selectedImage = myImages[randomIndex];
+
+        // 3. Apply the image to the body background
+        document.body.style.backgroundImage = "url('" + selectedImage + "')";
+    </script>
+
 </body>
 </html>
