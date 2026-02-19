@@ -62,3 +62,21 @@ body {
     object-fit: cover;
     cursor: pointer;
 }
+.logout-btn {
+    position: absolute; /* Takes it out of the normal layout flow */
+    top: 20px;          /* Distance from the top of the page */
+    right: 20px;        /* Distance from the right side of the page */
+    background: #ff4d4d; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold;
+    z-index: 100;       /* Ensures it stays above the background images */
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: #cc0000; /* Darker red when hovering */
+}
