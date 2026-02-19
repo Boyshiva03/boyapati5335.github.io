@@ -22,6 +22,50 @@
         .photo-gallery img { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; margin-right: 10px; border: 2px solid rgba(255,255,255,0.5); }
         iframe { width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); }
         .logout-btn { background: #ff4d4d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; float: right; }
+        
+        /* The Modal (background) */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.9);
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  position: relative;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 20px; right: 35px;
+  color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;
+}
+
+/* Next & Previous Buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: rgba(0,0,0,0.5);
+  user-select: none;
+}
+.next { right: 0; border-radius: 3px 0 0 3px; }
+.prev { left: 0; border-radius: 0 3px 3px 0; }
     </style>
 </head>
 <body>
@@ -64,6 +108,13 @@
     const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
     document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
 </script>
-
+<div id="photoModal" class="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+    <img id="modalImg" src="" style="width:100%">
+    <a class="prev" onclick="changePhoto(-1)">&#10094;</a>
+    <a class="next" onclick="changePhoto(1)">&#10095;</a>
+  </div>
+</div>
 </body>
 </html>
