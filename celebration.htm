@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivanshi's Birthday Countdown</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .celebration-container {
+            text-align: center;
+            margin-top: 100px;
+            color: white;
+        }
+        .big-profile {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        .countdown-timer {
+            font-size: 3rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="celebration-container">
+        <img src="images/img1.JPG" class="big-profile">
+        <h1>Shivanshi's Birthday Celebration</h1>
+        <div class="countdown-timer" id="timer">--</div>
+        <h2>Days To Go! 🎂</h2>
+        <p><a href="events.html" style="color: white; text-decoration: underline;">Back to Dashboard</a></p>
+    </div>
+
+    <script>
+        function updateTimer() {
+            const target = new Date("February 24, 2026").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            
+            document.getElementById("timer").innerText = days > 0 ? days : "🎉 IT'S TODAY! 🎉";
+        }
+        updateTimer();
+        
+        // Random Background logic
+        const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+        document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
+    </script>
+</body>
+</html>
