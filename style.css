@@ -64,7 +64,7 @@ body {
 }
 .logout-btn {
     position: absolute; /* Takes it out of the normal layout flow */
-    top: 20px;          /* Distance from the top of the page */
+    bottom: 20px;          /* Distance from the bottom of the page */
     right: 20px;        /* Distance from the right side of the page */
     background: #ff4d4d; 
     color: white; 
