@@ -84,10 +84,10 @@
     <div class="section-card">
         <h3>📸 Recent Photos</h3>
         <div class="photo-gallery">
-            <img src="images/img1.JPG">
-            <img src="images/img2.JPG">
-            <img src="images/img3.JPG">
-        </div>
+        <img src="images/img1.JPG" onclick="openModal(0)" style="cursor:pointer" alt="Photo 1">
+        <img src="images/img2.JPG" onclick="openModal(1)" style="cursor:pointer" alt="Photo 2">
+        <img src="images/img3.JPG" onclick="openModal(2)" style="cursor:pointer" alt="Photo 3">
+    </div>
     </div>
 
     <div class="section-card">
@@ -107,7 +107,36 @@
 <script>
     const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
     document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
+    let currentPhotoIndex = 0;
+// Make sure this list matches your actual images
+const galleryImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+
+function openModal(index) {
+  currentPhotoIndex = index;
+  document.getElementById("photoModal").style.display = "block";
+  document.getElementById("modalImg").src = galleryImages[currentPhotoIndex];
+}
+
+function closeModal() {
+  document.getElementById("photoModal").style.display = "none";
+}
+
+function changePhoto(n) {
+  currentPhotoIndex += n;
+  // Loop back to start or end
+  if (currentPhotoIndex >= galleryImages.length) {currentPhotoIndex = 0}
+  if (currentPhotoIndex < 0) {currentPhotoIndex = galleryImages.length - 1}
+  
+  document.getElementById("modalImg").src = galleryImages[currentPhotoIndex];
+}
+
+// Close modal if user clicks outside the image
+window.onclick = function(event) {
+  const modal = document.getElementById("photoModal");
+  if (event.target == modal) { closeModal(); }
+}
 </script>
+
 <div id="photoModal" class="modal">
   <span class="close" onclick="closeModal()">&times;</span>
   <div class="modal-content">
