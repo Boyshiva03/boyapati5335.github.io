@@ -102,7 +102,7 @@ body {
     animation: scroll-text 15s linear infinite; /* 15s is the speed */
     font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
+    color: #FFFFFF;
 }
 
 @keyframes scroll-text {

@@ -16,8 +16,8 @@
         </a>
 
         <p>
-            <a href="#" onclick="location.reload();" style="color: white; font-size: 0.8rem; text-decoration: underline;">
-                Just Refresh Background
+            <a href="#" onclick="location.reload();" style="color: rgb(233, 7, 7); font-size: 0.8rem; text-decoration: underline;">
+                Refresh Background
             </a>
         </p>
     </div>
@@ -27,7 +27,7 @@
 
     <script>
         // Use your exact file names with uppercase .JPG
-        const myImages = ['images/img1.PNG', 'images/img2.JPG', 'images/img3.JPG'];
+        const myImages = ['images/img1.PNG'];
         const randomIndex = Math.floor(Math.random() * myImages.length);
         document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
     </script>
