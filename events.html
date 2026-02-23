@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <script>
     // Security Check: If the "Key" isn't found, redirect to login
@@ -17,10 +19,18 @@
         }
     </script>
     <style>
-        .events-grid { display: flex; flex-direction: row; gap: 10px; padding: 10px; max-width: 75%; margin: 50px auto; }
-        .section-card { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
-        .photo-gallery img { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; margin-right: 10px; border: 2px solid rgba(255,255,255,0.5); }
-        iframe { width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); }
+        .events-grid { 
+          display: flex; flex-direction: row; gap: 10px; padding: 10px; max-width: 75%; margin: 50px auto; }
+
+        .section-card { 
+          background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
+
+        .photo-gallery img { 
+          width: 120px; height: 120px; object-fit: cover; border-radius: 10px; margin-right: 10px; border: 2px solid rgba(255,255,255,0.5); }
+
+        iframe { 
+          width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); }
+          
         .logout-btn { background: #ff4d4d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; float: right; }
         
         /* The Modal (background) */
@@ -68,6 +78,11 @@
 .prev { left: 0; border-radius: 0 3px 3px 0; }
     </style>
 </head>
+
+    <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">
+        Logout
+    </button> 
+
 <body>
 
     <body>
@@ -105,11 +120,7 @@
   </div>
 </div>
 
-<div class="events-grid">  
-
-    <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">
-        Logout
-    </button>
+<div class="events-grid"> 
 
     <div class="profile-section">
     <img src="images/img4.PNG" alt="Profile" class="profile-circle" style="left: 20px; width:150px; height:150px; border-radius:50%; border: 3px solid rgba(255,255,255,0.5);position:fixed; top: 20px;">

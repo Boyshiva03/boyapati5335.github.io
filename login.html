@@ -1,7 +1,9 @@
-<div class="container">
-    <h2>Sign In</h2>
-    <input type="text" id="userInput" placeholder="Username">
-    <input type="password" id="passInput" placeholder="Password">
+<div class="container" @media screen and (max-width: 768px) {
+        top: 400px;
+        right: 50px;}>
+    <br><h2>Sign In</h2></br>
+    <br><input type="text" id="userInput" placeholder="Username"></br>
+    <br><input type="password" id="passInput" placeholder="Password"></br>
     
     <button id="action-btn" onclick="validateLogin()">Submit</button>
     
