@@ -84,7 +84,7 @@ body {
 }
 
 .welcome-scroll {
-    width: 100%;
+    width: 98%;
     overflow: hidden; /* Hides text outside the box */
     white-space: nowrap; /* Keeps text in one line */
     background: #7ea03f; /* Optional: light background */
