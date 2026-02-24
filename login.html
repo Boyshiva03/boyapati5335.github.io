@@ -1,15 +1,14 @@
-<div class="container" @media screen and (max-width: 768px) {
-        top: 400px;
-        right: 50px;}>
+<div class="container" style="background: rgba(0, 0, 0, 0.5); padding: 60px; border-radius: 20px; max-width: 400px; margin: 100px auto; color: white;">
     <br><h2>Sign In</h2></br>
     <br><input type="text" id="userInput" placeholder="Username"></br>
     <br><input type="password" id="passInput" placeholder="Password"></br>
     
-    <button id="action-btn" onclick="validateLogin()">Submit</button>
+    <br><button id="action-btn" onclick="validateLogin()">Submit</button></br>
     
     <p id="error-msg" style="color: #ff4d4d; display: none; font-size: 0.8rem;">Invalid Credentials!</p>
     <p><a href="index.html" style="color: white; font-size: 0.8rem;">Go Back Home</a></p>
 </div>
+
 
 <script>
     // 1. YOUR "DATABASE" - Update these as needed
@@ -40,7 +39,7 @@
 }
 
     // Background randomizer remains the same
-    const myImages = ['images/img1.PNG', 'images/img2.JPG', 'images/img3.JPG'];
+    const myImages = ['images/img8.jpg'];
     const randomIndex = Math.floor(Math.random() * myImages.length);
     document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
 </script>
