@@ -133,3 +133,19 @@ body {
     position: absolute;
 }
 
+.download-style {
+    background-color: #FFD700; /* Matching your Gold theme */
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.download-style:hover {
+    background-color: #e6c300;
+    color: #000;
+}
+

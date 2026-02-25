@@ -128,14 +128,15 @@
 
     <br><div class="section-card">
         <h3>📅 Upcoming Events</h3>
-        <p>• Shivanshi birthday - 2026/02/24</p>
-        <p>• Daily Health Task: 10000 Steps</p>
+        <p>• Swimming & Dance classes</p>
+        <p>• Daily Health Task: 10000 Steps 30days challenge</p>
+        <p>• Summer vacation 2026</p>
     </div></br>
 
     <br><div class="section-card" style="border: 2px solid gold;">
     <h3>✨ Special Milestone</h3>
-    <p>Shivanshi's Birthday is coming up on 2026/02/24!</p>
-    <a href="celebration.html" style="color: gold; font-weight: bold;"> HBD Shivanshi 2026 →</a>
+    <p>Daily Health Task: 10000 Steps 30days challenge!</p>
+    <a href="celebration.html" style="color: gold; font-weight: bold;"> 10000 steps 30days challenge completed</a>
     </div></br>
     
 </div>
@@ -149,8 +150,15 @@ const galleryImages = ['images/img1.PNG', 'images/img2.JPG', 'images/img3.JPG', 
 
 function openModal(index) {
   currentPhotoIndex = index;
-  document.getElementById("photoModal").style.display = "block";
-  document.getElementById("modalImg").src = galleryImages[currentPhotoIndex];
+  const modal = document.getElementById("photoModal");
+  const modalImg = document.getElementById("modalImg");
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  modal.style.display = "block";
+  modalImg.src = galleryImages[currentPhotoIndex];
+  
+  // Sets the download link to the current image path
+  downloadBtn.href = galleryImages[currentPhotoIndex];
 }
 
 function closeModal() {
@@ -160,10 +168,14 @@ function closeModal() {
 function changePhoto(n) {
   currentPhotoIndex += n;
   // Loop back to start or end
-  if (currentPhotoIndex >= galleryImages.length) {currentPhotoIndex = 0}
+if (currentPhotoIndex >= galleryImages.length) {currentPhotoIndex = 0}
   if (currentPhotoIndex < 0) {currentPhotoIndex = galleryImages.length - 1}
   
-  document.getElementById("modalImg").src = galleryImages[currentPhotoIndex];
+  const modalImg = document.getElementById("modalImg");
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  modalImg.src = galleryImages[currentPhotoIndex];
+  downloadBtn.href = galleryImages[currentPhotoIndex];
 }
 
 // Close modal if user clicks outside the image
@@ -177,6 +189,11 @@ window.onclick = function(event) {
   <span class="close" onclick="closeModal()">&times;</span>
   <div class="modal-content">
     <img id="modalImg" src="" style="width:100%">
+  <div style="text-align: center; margin-top: 15px;">
+        <a id="downloadBtn" href="" download class="download-style">
+            📥 Download
+        </a>
+    </div>  
     <a class="prev" onclick="changePhoto(-1)">&#10094;</a>
     <a class="next" onclick="changePhoto(1)">&#10095;</a>
   </div>
