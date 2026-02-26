@@ -31,11 +31,11 @@ body {
     position: absolute;
     
     /* Adds a thin light border to define the edges of the glass */
-    border: 10px solid rgba(255, 255, 255, 0.4);
+    border: 10px solid #FFD700;
     @media screen and (max-width: 768px) {
-        top: 400px;
+        top: 600px;
         right: 50px;
-        max-width: 200px;
+        max-width: 200px;        
     }
 }
 
@@ -94,8 +94,8 @@ body {
     width: 98%;
     overflow: hidden; /* Hides text outside the box */
     white-space: nowrap; /* Keeps text in one line */
-    background: #7ea03f; /* Optional: light background */
-    padding: 10px 0;
+    
+    padding: 0% 0;
     position: absolute;
     top: 10px;    
     left: 10px;
@@ -110,7 +110,7 @@ body {
     animation: scroll-text 15s linear infinite; /* 15s is the speed */
     font-size: 1.5rem;
     font-weight: bold;
-    color: #FFFFFF;
+    color: #4a378f; /* Gold color for the text */
 }
 
 @keyframes scroll-text {
