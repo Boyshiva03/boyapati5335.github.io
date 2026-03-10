@@ -10,6 +10,7 @@
             text-align: center;
             margin-top: 100px;
             color: white;
+                       
         }
         .big-profile {
             width: 150px;
@@ -33,10 +34,14 @@
 <body>
 
     <div class="celebration-container" style="color: palevioletred;">
-        <img src="images/img5.PNG" class="big-profile">
-        <h1>Shivanshi's Birthday Celebration</h1>
+        <!-- <img src="images/img4.PNG" class="big-profile"> -->
+        <h1>
+                <div>
+                     <p><a href="https://youtu.be/DATWeCIcKWk?si=8DQXUKa-f96VNeO1" target="_blank">Watch 30 days challenge video! 2026</a></p>      
+                </div>
+        </h1>
         <div class="countdown-timer" id="timer">--</div>
-        <h2>Days To Go! 🎂</h2>
+        <h2>Thank you </h2>
         <p><a href="events.html" style="color: yellow; text-decoration: underline;">Back to Dashboard</a></p>
     </div>
 
@@ -47,12 +52,14 @@
             const diff = target - now;
             const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
             
-            document.getElementById("timer").innerText = days > 0 ? days : "🎉 IT'S TODAY! 🎉";
+            document.getElementById("timer").innerText = days > 0 ? days : "WC 30 days";
+           
+            
         }
         updateTimer();
         
         // Random Background logic
-        const myImages = ['images/img1.PNG', 'images/img2.JPG', 'images/img3.JPG'];
+        const myImages = ['images/img19.PNG'];
         document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
     </script>
 </body>
