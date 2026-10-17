@@ -12,7 +12,7 @@
 
 <script>
     const AUTH_DATABASE = {
-        "admin": "7b72db5ec88a6d05ca1ec1f8c857beaeec966601b0f55b1f9b37c02b1154f85a"
+        "admin": "31a79bb331fac359221c292b76428f08ad29f55a2257e4e88dc996e84c016203"
     };
 
     async function sha256(message) {
@@ -48,15 +48,6 @@
         console.log("Hashed attempt:        ", hashedAttempt);
         console.log("Expected stored hash:  ", expectedHash);
 
-        if (hashedAttempt === expectedHash) {
-            sessionStorage.setItem("isLoggedIn", "true");
-            sessionStorage.setItem("lastActiveTime", Date.now().toString());
-            window.location.href = "events.html";
-        } else {
-            alert("Hash mismatch!\nGenerated: " + hashedAttempt + "\nExpected:  " + expectedHash);
-            if (errorMsg) errorMsg.style.display = 'block';
-            passInputElem.value = "";
-        }
     }
 
     // Dynamic background selector
