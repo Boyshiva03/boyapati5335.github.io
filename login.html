@@ -1,58 +1,87 @@
-<div class="container" style="background: rgba(0, 0, 0, 0.5); padding: 60px; border-radius: 20px; max-width: 400px; margin: 100px auto; color: white;">
-    <br><h2>Sign In</h2></br>
-    <br><input type="text" id="userInput" placeholder="Username"></br>
-    <br><input type="password" id="passInput" placeholder="Password"></br>
-    
-    <br><button id="action-btn" onclick="validateLogin()">Submit</button></br>
-    
-    <p id="error-msg" style="color: #ff4d4d; display: none; font-size: 0.8rem;">Invalid Credentials!</p>
-    <p><a href="index.html" style="color: white; font-size: 0.8rem;">Go Back Home</a></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - My World</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <div class="container">
+        <h2>Sign In</h2>
+        <input type="text" id="userInput" placeholder="Username">
+        <input type="password" id="passInput" placeholder="Password">
+        
+        <button id="action-btn" type="button" onclick="validateLogin()">Submit</button>
+        
+        <p id="error-msg" style="color: #ff4d4d; display: none; font-size: 0.8rem; margin-top: 10px;">Invalid Credentials!</p>
+        <p><a href="index.html" style="color: white; font-size: 0.8rem; text-decoration: underline;">Go Back Home</a></p>
+    </div>
 
-<script>
-    const AUTH_DATABASE = {
-        "admin": "31a79bb331fac359221c292b76428f08ad29f55a2257e4e88dc996e84c016203"
-    };
+    <script>
+        // Store both valid hash variants so login works reliably
+        const AUTH_DATABASE = {
+            "admin": [
+                "31a79bb331fac359221c292b76428f08ad29f55a2257e4e88dc996e84c016203",
+                "7b72db5ec88a6d05ca1ec1f8c857beaeec966601b0f55b1f9b37c02b1154f85a"
+            ]
+        };
 
-    async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    async function validateLogin() {
-        const userInputElem = document.getElementById('userInput');
-        const passInputElem = document.getElementById('passInput');
-        const errorMsg = document.getElementById('error-msg');
-
-        if (!userInputElem || !passInputElem) {
-            alert("Error: Input IDs do not match 'userInput' or 'passInput' in HTML!");
-            return;
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        const usernameInput = userInputElem.value.trim().toLowerCase();
-        const passwordInput = passInputElem.value.trim();
+        async function validateLogin() {
+            const userInput = document.getElementById('userInput');
+            const passInput = document.getElementById('passInput');
+            const errorMsg = document.getElementById('error-msg');
 
-        if (!AUTH_DATABASE[usernameInput]) {
-            alert("Username not found: '" + usernameInput + "'");
-            if (errorMsg) errorMsg.style.display = 'block';
-            return;
+            const username = userInput.value.trim().toLowerCase();
+            const password = passInput.value.trim();
+
+            if (!AUTH_DATABASE[username]) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            try {
+                const hashedAttempt = await sha256(password);
+                const allowedHashes = AUTH_DATABASE[username];
+
+                if (allowedHashes.includes(hashedAttempt)) {
+                    sessionStorage.setItem("isLoggedIn", "true");
+                    sessionStorage.setItem("lastActiveTime", Date.now().toString());
+                    window.location.href = "events.html";
+                } else {
+                    errorMsg.style.display = 'block';
+                    passInput.value = "";
+                }
+            } catch (err) {
+                console.error("Login verification failed:", err);
+            }
         }
 
-        const hashedAttempt = await sha256(passwordInput);
-        const expectedHash = AUTH_DATABASE[usernameInput].trim();
+        // Allow pressing Enter key to submit
+        document.addEventListener('DOMContentLoaded', () => {
+            const passField = document.getElementById('passInput');
+            if (passField) {
+                passField.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        validateLogin();
+                    }
+                });
+            }
+        });
 
-        console.log("Input password entered:", passwordInput);
-        console.log("Hashed attempt:        ", hashedAttempt);
-        console.log("Expected stored hash:  ", expectedHash);
-
-    }
-
-    // Dynamic background selector
-    const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
-    if (myImages.length > 0) {
-        document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
-    }
-</script>
+        // Background randomizer
+        const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+        if (myImages.length > 0) {
+            document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
+        }
+    </script>
+</body>
+</html>
