@@ -11,35 +11,43 @@
 
 
 <script>
-    // 1. YOUR "DATABASE" - Update these as needed
-    const validCreds = {
-        "admin": "shiva123",
-        "leela": "password456",
-        "guest": "welcome2026"
+    // Stored SHA-256 hash instead of plain-text passwords
+    const AUTH_DATABASE = {
+        "admin": "7b72db5ec88a6d05ca1ec1f8c857beaeec966601b0f55b1f9b37c02b1154f85a"
     };
 
-    function validateLogin() {
-    const user = document.getElementById('userInput').value;
-    const pass = document.getElementById('passInput').value;
-    const error = document.getElementById('error-msg');
-
-    const validCreds = {
-        "admin": "shiva123",
-        "guest": "welcome2026"
-    };
-
-    if (validCreds[user] && validCreds[user] === pass) {
-        // This sets a temporary "Key" in the browser
-        sessionStorage.setItem("isLoggedIn", "true"); 
-        alert("Access Granted!");
-        window.location.href = "events.html"; 
-    } else {
-        error.style.display = 'block';
+    // Helper: hash input text with SHA-256
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
-}
 
-    // Background randomizer remains the same
-    const myImages = ['images/img8.jpg'];
-    const randomIndex = Math.floor(Math.random() * myImages.length);
-    document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
+    async function validateLogin() {
+        const usernameInput = document.getElementById('userInput').value.trim();
+        const passwordInput = document.getElementById('passInput').value;
+        const errorMsg = document.getElementById('error-msg');
+
+        if (!AUTH_DATABASE[usernameInput]) {
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        const hashedAttempt = await sha256(passwordInput);
+
+        if (hashedAttempt === AUTH_DATABASE[usernameInput]) {
+            // Save authentication state along with a creation timestamp
+            sessionStorage.setItem("isLoggedIn", "true");
+            sessionStorage.setItem("lastActiveTime", Date.now().toString());
+            window.location.href = "events.html";
+        } else {
+            errorMsg.style.display = 'block';
+            document.getElementById('passInput').value = "";
+        }
+    }
+
+    // Dynamic background selector
+    const myImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+    document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
 </script>
