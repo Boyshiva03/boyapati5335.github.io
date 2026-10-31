@@ -149,3 +149,34 @@ body {
     color: #000;
 }
 
+.top-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-dropdown {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    color: white;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Ensure options remain readable when opened */
+.custom-dropdown option {
+    background: #2b2b2b;
+    color: white;
+}
+
