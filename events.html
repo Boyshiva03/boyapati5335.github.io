@@ -51,6 +51,7 @@
             padding: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.3); 
             color: white; 
+            margin-bottom: 25px
         }
         .header-bar {
             display: flex;
@@ -143,69 +144,103 @@
             border-color: #2ea44f;
             font-weight: bold;
         }
+        .frame-wrapper {
+    width: 100%;
+    height: 75vh;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.content-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
     </style>
 </head>
 <body>
-
-<div class="events-grid">
-    <div class="header-bar">
-        <h2 style="color: white; margin: 0;">Personal Dashboard</h2>
+<div class="events-grid" border-radius="1px">
+    <!-- Top Selector & Controls -->
+    <div class="top-nav-bar" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+        <div class="dropdown-wrapper">
+            <label for="pageSelect" style="color: rgb(255, 255, 0); font-weight: bold; font-size: 1.25rem; margin-bottom: 4px; display: block;">Choose Page:</label>
+            <select id="pageSelect" class="custom-dropdown" onchange="loadPage(this.value)">    
+                <option value="">home</option>
+                <option value="Sivaiah.html">Boyapati Sivaiah</option>
+                <option value="SivaLeela.html">Boyapati SivaLeela</option>
+                <option value="Shivanshi.html">Boyapati Shivanshi</option>
+            </select>
+        </div>
         <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">Logout</button>
     </div>
-    
-    <!-- Section 1: Recent Photos -->
-    <div class="section-card">
-        <h3>📸 Recent Photos</h3>
-        <div class="photo-gallery">
-            <img src="images/img1.webp" onerror="this.src='images/img1.JPG'">
-            <img src="images/img2.webp" onerror="this.src='images/img2.JPG'">
-            <img src="images/img3.webp" onerror="this.src='images/img3.JPG'">
-        </div>
+
+    <!-- Frame Container for Sivaiah.html, SivaLeela.html, etc. -->
+    <div class="frame-wrapper" id="frameWrapper" style="display: none;">
+        <iframe id="displayFrame" class="content-frame" src=""></iframe>
     </div>
 
-    <!-- Section 2: Interactive Step & Activity Tracker -->
-    <div class="section-card">
-        <h3>🏃 Daily Steps & Routine Tracker</h3>
-        <p style="margin: 5px 0;">Goal: <strong>5,000 steps</strong> / day</p>
-        
-        <div class="progress-bar-container">
-            <div id="step-bar" class="progress-bar-fill"></div>
+    <!-- Main Dashboard Content (Visible by default until a sub-page is selected) -->
+    <div id="defaultDashboard">
+        <div class="header-bar">
+            <h2 style="color: rgba(255, 255, 0); margin: 1px 1px;">Personal Dashboard</h2>
         </div>
         
-        <p id="step-count-text" style="font-size: 0.9rem; margin: 5px 0;">0 / 5,000 steps (0%)</p>
-
-        <div class="tracker-controls">
-            <button class="tracker-btn" onclick="addSteps(1000)">+1,000 Steps</button>
-            <button class="tracker-btn" onclick="addSteps(500)">+500 Steps</button>
-            <button class="tracker-btn" onclick="resetSteps()" style="border-color: #ff6b6b;">Reset</button>
+        <!-- Section 1: Recent Photos -->
+        <div class="section-card">
+            <h3>📸 Recent Photos</h3>
+            <div class="photo-gallery">
+                <img src="images/imghome1.webp" onerror="this.src='images/imghome1.JPG'">
+                <img src="images/imglog1.webp" onerror="this.src='images/imglog1.JPG'">
+                <img src="images/img3.webp" onerror="this.src='images/img3.JPG'">
+            </div>
         </div>
 
-        <ul style="margin-top: 15px;">
-            <li>Daily habit: 5,000 steps walking routine.</li>
-            <li>Cloud & Active Directory automation tasks.</li>
-        </ul>
-    </div>
+        <!-- Section 2: Interactive Step & Activity Tracker -->
+        <div class="section-card">
+            <h3>🏃 Daily Steps & Routine Tracker</h3>
+            <p style="margin: 5px 0;">Goal: <strong>5,000 steps</strong> / day</p>
+            
+            <div class="progress-bar-container">
+                <div id="step-bar" class="progress-bar-fill"></div>
+            </div>
+            
+            <p id="step-count-text" style="font-size: 0.9rem; margin: 5px 0;">0 / 5,000 steps (0%)</p>
 
-    <!-- Section 3: Interactive Video Player Widget -->
-    <div class="section-card">
-        <h3>🎥 YouTube Highlights</h3>
-        
-        <div class="video-container">
-            <iframe id="main-video" src="https://www.youtube.com/embed/k6-K6rHJADI" frameborder="0" allowfullscreen></iframe>
+            <div class="tracker-controls">
+                <button class="tracker-btn" onclick="addSteps(1000)">+1,000 Steps</button>
+                <button class="tracker-btn" onclick="addSteps(500)">+500 Steps</button>
+                <button class="tracker-btn" onclick="resetSteps()" style="border-color: #ff6b6b;">Reset</button>
+            </div>
+
+            <ul style="margin-top: 15px;">
+                <li>Daily habit: 5,000 steps walking routine.</li>
+                <li>Cloud & Active Directory automation tasks.</li>
+            </ul>
         </div>
 
-        <div class="video-chips">
-            <button class="chip active" onclick="switchVideo('Q58tuXPr8do', this)">Featured Clip</button>
-            <button class="chip" onclick="switchVideo('Byds93-3C6c', this)">Travel / Vlog</button>
-            <button class="chip" onclick="switchVideo('Q58tuXPr8do', this)">Music / Beats</button>
-        </div>
-    </div>
+        <!-- Section 3: Interactive Video Player Widget -->
+        <div class="section-card">
+            <h3>🎥 YouTube Highlights</h3>
+            
+            <div class="video-container">
+                <iframe id="main-video" src="https://www.youtube.com/embed/k6-K6rHJADI" frameborder="0" allowfullscreen></iframe>
+            </div>
 
-    <!-- Section 4: Upcoming Schedule -->
-    <div class="section-card">
-        <h3>📅 Upcoming Schedule</h3>
-        <p>• Architecture Review & Automation Check</p>
-        <p>• Weekly Milestone & Family Planning</p>
+            <div class="video-chips">
+                <button class="chip active" onclick="switchVideo('Q58tuXPr8do', this)">Featured Clip</button>
+                <button class="chip" onclick="switchVideo('Byds93-3C6c', this)">Travel / Vlog</button>
+                <button class="chip" onclick="switchVideo('Q58tuXPr8do', this)">Music / Beats</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Upcoming Schedule -->
+        <div class="section-card">
+            <h3>📅 Upcoming Schedule</h3>
+            <p>• Architecture Review & Automation Check</p>
+            <p>• Weekly Milestone & Family Planning</p>
+        </div>
     </div>
 </div>
 
@@ -260,6 +295,23 @@
 
     // Initialize UI
     updateStepUI();
+
+function loadPage(pageUrl) {
+    const frame = document.getElementById('displayFrame');
+    const frameWrapper = document.getElementById('frameWrapper');
+    const defaultDashboard = document.getElementById('defaultDashboard');
+
+    if (pageUrl) {
+        frame.src = pageUrl;
+        frameWrapper.style.display = 'block';
+        defaultDashboard.style.display = 'none';
+    } else {
+        frame.src = '';
+        frameWrapper.style.display = 'none';
+        defaultDashboard.style.display = 'block';
+    }
+}
+
 </script>
 <img src="https://visitor-badge.laobi.icu/badge?page_id=boyapati5335.github.io" alt="Visitor Count">
 </body>
