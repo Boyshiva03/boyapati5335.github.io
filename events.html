@@ -1,208 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
-    <script>
-    // Security Check: If the "Key" isn't found, redirect to login
-    if (sessionStorage.getItem("isLoggedIn") !== "true") {
-        window.location.href = "login.html";
-    }
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - My World</title>
     <link rel="stylesheet" href="style.css">
     <script>
-        if (sessionStorage.getItem("isLoggedIn") !== "true") {
-            window.location.href = "login.html";
+        const TIMEOUT_DURATION_MS = 15 * 60 * 1000;
+
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+            const lastActive = parseInt(sessionStorage.getItem("lastActiveTime"), 10);
+            const now = Date.now();
+
+            if (isLoggedIn !== "true" || !lastActive || (now - lastActive > TIMEOUT_DURATION_MS)) {
+                sessionStorage.clear();
+                window.location.href = "login.html";
+                return false;
+            }
+            return true;
+        }
+
+        function recordActivity() {
+            if (sessionStorage.getItem("isLoggedIn") === "true") {
+                sessionStorage.setItem("lastActiveTime", Date.now().toString());
+            }
+        }
+
+        if (checkAuth()) {
+            ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => {
+                window.addEventListener(event, recordActivity, { passive: true });
+            });
+            setInterval(checkAuth, 30000);
         }
     </script>
     <style>
         .events-grid { 
-          display: flex; flex-direction: row; gap: 10px; padding: 10px; max-width: 75%; margin: 50px auto; }
-
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 20px; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 30px auto; 
+        }
         .section-card { 
-          background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
+            background: rgba(255, 255, 255, 0.25) !important; 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px; 
+            padding: 25px; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            color: white; 
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .logout-btn { 
+            background: #ff4d4d; 
+            color: white; 
+            border: none; 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+        }
 
-        .photo-gallery img { 
-          width: 120px; height: 120px; object-fit: cover; border-radius: 10px; margin-right: 10px; border: 2px solid rgba(255,255,255,0.5); }
+        /* Photo Gallery */
+        .photo-gallery { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px; }
+        .photo-gallery img { width: 140px; height: 140px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255,255,255,0.4); }
 
-        iframe { 
-          width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); }
+        /* Step Tracker Widget */
+        .progress-bar-container {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 22px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #2ea44f;
+            width: 0%;
+            transition: width 0.4s ease-in-out;
+        }
+        .tracker-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .tracker-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .tracker-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
 
-        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; float: right; }
-        
-        /* The Modal (background) */
-.modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.9);
-}
-
-/* Modal Content (Image) */
-.modal-content {
-  position: relative;
-  margin: auto;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 80%;
-  max-width: 700px;
-}
-
-/* Close Button */
-.close {
-  position: absolute;
-  top: 20px; right: 35px;
-  color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;
-}
-
-/* Next & Previous Buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  background-color: rgba(0,0,0,0.5);
-  user-select: none;
-}
-.next { right: 0; border-radius: 3px 0 0 3px; }
-.prev { left: 0; border-radius: 0 3px 3px 0; }
+        /* YouTube Video Switcher Widget */
+        .video-container { 
+            position: relative; 
+            padding-bottom: 56.25%; 
+            height: 0; 
+            overflow: hidden; 
+            border-radius: 15px; 
+            margin-top: 15px; 
+        }
+        .video-container iframe { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+        }
+        .video-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .chip {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .chip.active {
+            background: #2ea44f;
+            border-color: #2ea44f;
+            font-weight: bold;
+        }
     </style>
 </head>
+<body>
 
-    <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">
-        Logout
-    </button> 
-
-<body> 
-<div class="events-flex" style="padding: 50px;" border="2px solid red"> 
-
-    <br><div class="section-card" >
-        <h3>Recent Activities</h3>
-        <ul>
-            <li>Celebrated sankarnti festival at home town</li>
-            <li>Shivanshi birthday celebrations</li>
-            <li>Visited the swarnagiri temple</li>
-            <li>Rambabu marriage</li>
-            <li>Vinayaka chaturthi festival</li>
-            <li>Dasara festival holidays</li> 
-            <li>great grand mother death cermoy</li>
-  
-
-        </ul>
-    </div></br>
+<div class="events-grid">
+    <div class="header-bar">
+        <h2 style="color: white; margin: 0;">Personal Dashboard</h2>
+        <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">Logout</button>
+    </div>
     
-    <br><div class="section-card">
+    <!-- Section 1: Recent Photos -->
+    <div class="section-card">
         <h3>📸 Recent Photos</h3>
         <div class="photo-gallery">
-        <img src="images/img1.PNG" onclick="openModal(0)" style="cursor:pointer" alt="Photo 1">
-        <img src="images/img2.JPG" onclick="openModal(1)" style="cursor:pointer" alt="Photo 2">
-        <img src="images/img3.JPG" onclick="openModal(2)" style="cursor:pointer" alt="Photo 3">
-        <img src="images/img4.PNG" onclick="openModal(3)" style="cursor:pointer" alt="Photo 4">
-        <img src="images/img5.PNG" onclick="openModal(4)" style="cursor:pointer" alt="Photo 5">
-        <img src="images/img6.jpg" onclick="openModal(5)" style="cursor:pointer" alt="Photo 6">
-        <img src="images/img7.jpg" onclick="openModal(6)" style="cursor:pointer" alt="Photo 7">
-        <img src="images/img8.jpg" onclick="openModal(7)" style="cursor:pointer" alt="Photo 8">
-        <img src="images/img9.jpg" onclick="openModal(8)" style="cursor:pointer" alt="Photo 9">
-        <img src="images/img10.jpg" onclick="openModal(9)" style="cursor:pointer" alt="Photo 10">
-        <img src="images/img11.jpg" onclick="openModal(10)" style="cursor:pointer" alt="Photo 11">
-        <img src="images/img12.PNG" onclick="openModal(11)" style="cursor:pointer" alt="Photo 12">
-        <img src="images/img13.jpg" onclick="openModal(12)" style="cursor:pointer" alt="Photo 13">
-        <img src="images/img14.PNG" onclick="openModal(13)" style="cursor:pointer" alt="Photo 14">
-        <img src="images/img15.jpg" onclick="openModal(14)" style="cursor:pointer" alt="Photo 15">
-        <img src="images/img16.jpg" onclick="openModal(15)" style="cursor:pointer" alt="Photo 16">
-        <h4>click photo to view</h4>
-    </div></br>
-    </div></br>
+            <img src="images/img1.webp" onerror="this.src='images/img1.JPG'">
+            <img src="images/img2.webp" onerror="this.src='images/img2.JPG'">
+            <img src="images/img3.webp" onerror="this.src='images/img3.JPG'">
+        </div>
+    </div>
 
-    <br><div class="section-card">
-        <h3>🎥 YouTube Videos</h3>
-        <iframe height="250" src="https://www.youtube.com/embed/k6-K6rHJADI/" frameborder="0" allowfullscreen></iframe>
-        <iframe height="250" src="https://www.youtube.com/embed/Q58tuXPr8do" frameborder="0" allowfullscreen></iframe>
-        <iframe height="250" src="https://www.youtube.com/embed/Byds93-3C6c" frameborder="0" allowfullscreen></iframe>
-    </div></br>
+    <!-- Section 2: Interactive Step & Activity Tracker -->
+    <div class="section-card">
+        <h3>🏃 Daily Steps & Routine Tracker</h3>
+        <p style="margin: 5px 0;">Goal: <strong>5,000 steps</strong> / day</p>
+        
+        <div class="progress-bar-container">
+            <div id="step-bar" class="progress-bar-fill"></div>
+        </div>
+        
+        <p id="step-count-text" style="font-size: 0.9rem; margin: 5px 0;">0 / 5,000 steps (0%)</p>
 
-    <br><div class="section-card">
-        <h3>📅 Upcoming Events</h3>
-        <p>• Swimming & Dance classes</p>
-        <p>• Daily Health Task: 10000 Steps 30days challenge</p>
-        <p>• Summer vacation 2026</p>
-    </div></br>
+        <div class="tracker-controls">
+            <button class="tracker-btn" onclick="addSteps(1000)">+1,000 Steps</button>
+            <button class="tracker-btn" onclick="addSteps(500)">+500 Steps</button>
+            <button class="tracker-btn" onclick="resetSteps()" style="border-color: #ff6b6b;">Reset</button>
+        </div>
 
-    <br><div class="section-card" style="border: 2px solid gold;">
-    <h3>✨ Special Milestone</h3>
-    <p>Daily Health Task: 10000 Steps 30days challenge!</p>
-    <a href="celebration.html" style="color: gold; font-weight: bold;"> 10000 steps 30days challenge completed</a>
-    </div></br>
-    
+        <ul style="margin-top: 15px;">
+            <li>Daily habit: 5,000 steps walking routine.</li>
+            <li>Cloud & Active Directory automation tasks.</li>
+        </ul>
+    </div>
+
+    <!-- Section 3: Interactive Video Player Widget -->
+    <div class="section-card">
+        <h3>🎥 YouTube Highlights</h3>
+        
+        <div class="video-container">
+            <iframe id="main-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-chips">
+            <button class="chip active" onclick="switchVideo('dQw4w9WgXcQ', this)">Featured Clip</button>
+            <button class="chip" onclick="switchVideo('L_LUpnjgPso', this)">Travel / Vlog</button>
+            <button class="chip" onclick="switchVideo('jfKfPfyJRdk', this)">Music / Beats</button>
+        </div>
+    </div>
+
+    <!-- Section 4: Upcoming Schedule -->
+    <div class="section-card">
+        <h3>📅 Upcoming Schedule</h3>
+        <p>• Architecture Review & Automation Check</p>
+        <p>• Weekly Milestone & Family Planning</p>
+    </div>
 </div>
 
 <script>
-    const myImages = ['images/img1.PNG', 'images/img2.JPG', 'images/img3.JPG'];
-    document.body.style.backgroundImage = "url('" + myImages[Math.floor(Math.random() * myImages.length)] + "')";
-    let currentPhotoIndex = 0;
-// Make sure this list matches your actual images
-const galleryImages = ['images/img1.PNG', 'images/img2.JPG', 'images/img3.JPG', 'images/img4.PNG', 'images/img5.PNG', 'images/img6.jpg', 'images/img7.jpg', 'images/img8.jpg', 'images/img9.jpg', 'images/img10.jpg', 'images/img11.jpg', 'images/img12.PNG', 'images/img13.jpg', 'images/img14.PNG', 'images/img15.jpg', 'images/img16.jpg'];
+    // --- Step Tracker Logic (Stores count in LocalStorage) ---
+    const TARGET_STEPS = 5000;
+    
+    function getStoredSteps() {
+        return parseInt(localStorage.getItem('myDailySteps') || '0', 10);
+    }
 
-function openModal(index) {
-  currentPhotoIndex = index;
-  const modal = document.getElementById("photoModal");
-  const modalImg = document.getElementById("modalImg");
-  const downloadBtn = document.getElementById("downloadBtn");
+    function updateStepUI() {
+        const currentSteps = getStoredSteps();
+        const percent = Math.min(100, Math.round((currentSteps / TARGET_STEPS) * 100));
+        
+        document.getElementById('step-bar').style.width = percent + '%';
+        document.getElementById('step-count-text').innerText = 
+            `${currentSteps.toLocaleString()} / ${TARGET_STEPS.toLocaleString()} steps (${percent}%)`;
+    }
 
-  modal.style.display = "block";
-  modalImg.src = galleryImages[currentPhotoIndex];
-  
-  // Sets the download link to the current image path
-  downloadBtn.href = galleryImages[currentPhotoIndex];
-}
+    function addSteps(count) {
+        const updated = getStoredSteps() + count;
+        localStorage.setItem('myDailySteps', updated.toString());
+        updateStepUI();
+    }
 
-function closeModal() {
-  document.getElementById("photoModal").style.display = "none";
-}
+    function resetSteps() {
+        localStorage.setItem('myDailySteps', '0');
+        updateStepUI();
+    }
 
-function changePhoto(n) {
-  currentPhotoIndex += n;
-  // Loop back to start or end
-if (currentPhotoIndex >= galleryImages.length) {currentPhotoIndex = 0}
-  if (currentPhotoIndex < 0) {currentPhotoIndex = galleryImages.length - 1}
-  
-  const modalImg = document.getElementById("modalImg");
-  const downloadBtn = document.getElementById("downloadBtn");
+    // --- Video Switcher Logic ---
+    function switchVideo(videoId, clickedChip) {
+        document.getElementById('main-video').src = `https://www.youtube.com/embed/${videoId}`;
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        clickedChip.classList.add('active');
+    }
 
-  modalImg.src = galleryImages[currentPhotoIndex];
-  downloadBtn.href = galleryImages[currentPhotoIndex];
-}
+    // --- Background Preloader & Randomizer ---
+    const myImages = ['images/img1.webp', 'images/img2.webp', 'images/img3.webp'];
+    const fallbackImages = ['images/img1.JPG', 'images/img2.JPG', 'images/img3.JPG'];
+    const chosenIndex = Math.floor(Math.random() * myImages.length);
+    
+    const preloader = new Image();
+    preloader.src = myImages[chosenIndex];
+    preloader.onload = () => {
+        document.body.style.backgroundImage = `url('${myImages[chosenIndex]}')`;
+    };
+    preloader.onerror = () => {
+        document.body.style.backgroundImage = `url('${fallbackImages[chosenIndex]}')`;
+    };
 
-// Close modal if user clicks outside the image
-window.onclick = function(event) {
-  const modal = document.getElementById("photoModal");
-  if (event.target == modal) { closeModal(); }
-}
+    // Initialize UI
+    updateStepUI();
 </script>
 
-<div id="photoModal" class="modal">
-  <span class="close" onclick="closeModal()">&times;</span>
-  <div class="modal-content">
-    <img id="modalImg" src="" style="width:100%">
-  <div style="text-align: center; margin-top: 15px;">
-        <a id="downloadBtn" href="" download class="download-style">
-            📥 Download
-        </a>
-    </div>  
-    <a class="prev" onclick="changePhoto(-1)">&#10094;</a>
-    <a class="next" onclick="changePhoto(1)">&#10095;</a>
-  </div>
-</div>
-<img src="https://visitor-badge.laobi.icu/badge?page_id=boyapati5335.github.io" alt="Visitor Count">
 </body>
 </html>
