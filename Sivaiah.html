@@ -1,1 +1,324 @@
-<h3>Boyapati Sivaiah</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boyapati Sivaiah - Profile</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Security Check: Prevents standalone access outside authenticated session -->
+    <script>
+        if (sessionStorage.getItem("isLoggedIn") !== "true") {
+            window.top.location.href = "login.html";
+        }
+    </script>
+
+    <style>
+        body {
+            background: transparent;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .wiki-container {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Glassmorphism Card Style */
+        .wiki-card {
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 16px;
+            padding: 22px 26px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Two-column overview layout (Bio + Infobox) */
+        .overview-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .lead-text {
+            flex: 1 1 320px;
+            font-size: 1.05rem;
+        }
+
+        .lead-text h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+            padding-bottom: 8px;
+        }
+
+        /* Wikipedia-style Infobox */
+        .wiki-infobox {
+            flex: 0 0 280px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        .wiki-infobox h3 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            padding-bottom: 6px;
+            color: #ffeb3b; /* Accent yellow */
+        }
+
+        .infobox-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .infobox-label {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            width: 45%;
+        }
+
+        .infobox-value {
+            width: 55%;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        /* Table of Contents */
+        .toc-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px 18px;
+            width: fit-content;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .toc-box ul {
+            margin: 6px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .toc-box a {
+            color: #81d4fa;
+            text-decoration: none;
+        }
+
+        .toc-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section Headings */
+        h2.section-header {
+            font-size: 1.35rem;
+            color: #ffeb3b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            padding-bottom: 6px;
+            margin-top: 0;
+        }
+
+        /* Badges / Tech Chips */
+        .chip-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tech-chip {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Timeline / Chronology */
+        .timeline-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .timeline-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 14px;
+        }
+
+        .timeline-list li::before {
+            content: "•";
+            position: absolute;
+            left: 6px;
+            color: #ffeb3b;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        /* Media Gallery */
+        .media-strip {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .media-strip img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="wiki-container">
+
+    <!-- Top Card: Summary & Infobox -->
+    <div class="wiki-card">
+        <div class="overview-layout">
+            <div class="lead-text">
+                <h1>Boyapati Sivaiah</h1>
+                <p>
+                    <strong>Boyapati Sivaiah</strong> is an Indian Cloud Infrastructure Specialist and Systems Architect based in Hyderabad, Telangana. With extensive experience in multi-cloud engineering, automation, and container orchestration, his technical focus spans AWS, Microsoft Azure, Kubernetes management, and enterprise infrastructure reliability.
+                </p>
+                <p>
+                    He oversees production cloud services, CI/CD automation pipelines, zero-downtime cluster upgrades, and enterprise identity systems, alongside maintaining high-performance personal digital web platforms.
+                </p>
+
+                <!-- Quick Table of Contents -->
+                <div class="toc-box">
+                    <strong>Contents</strong>
+                    <ul>
+                        <li><a href="#biography">1 Biography & Education</a></li>
+                        <li><a href="#skills">2 Cloud & Technical Architecture</a></li>
+                        <li><a href="#milestones">3 Career & Key Projects</a></li>
+                        <li><a href="#interests">4 Personal Highlights</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Wikipedia-style Infobox -->
+            <div class="wiki-infobox">
+                <h3>Quick Facts</h3>
+                <div class="infobox-row">
+                    <span class="infobox-label">Role</span>
+                    <span class="infobox-value">Cloud Senior Analyst / Systems Architect</span>
+                </div>
+                <div class="infobox-row">
+                    <span class="infobox-label">Location</span>
+                    <span class="infobox-value">Hyderabad, India</span>
+                </div>
+                <div class="infobox-row">
+                    <span class="infobox-label">Alma Mater</span>
+                    <span class="infobox-value">JNTU Kakinada (B.Tech EE)</span>
+                </div>
+                <div class="infobox-row">
+                    <span class="infobox-label">Cloud Focus</span>
+                    <span class="infobox-value">AWS, Azure, Kubernetes</span>
+                </div>
+                <div class="infobox-row">
+                    <span class="infobox-label">Automation</span>
+                    <span class="infobox-value">Terraform, PowerShell, Shell</span>
+                </div>
+                <div class="infobox-row">
+                    <span class="infobox-label">Platform</span>
+                    <span class="infobox-value">GitHub Pages (CI/CD)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Biography & Education -->
+    <div id="biography" class="wiki-card">
+        <h2 class="section-header">1. Biography & Education</h2>
+        <p>
+            Boyapati Sivaiah earned his Bachelor of Technology (B.Tech) in Electrical and Electronics Engineering from Tenali Engineering College, affiliated with Jawaharlal Nehru Technological University (JNTUK). 
+        </p>
+        <p>
+            Following his academic foundation, he transitioned into enterprise telecommunications and IT infrastructure engineering, specializing in enterprise directory services, distributed server environments, and enterprise identity access management.
+        </p>
+    </div>
+
+    <!-- Section 2: Technical Architecture -->
+    <div id="skills" class="wiki-card">
+        <h2 class="section-header">2. Cloud & Technical Architecture</h2>
+        <p>Core architectural specializations include infrastructure as code (IaC), zero-trust access control, and distributed computing:</p>
+
+        <div class="chip-container">
+            <span class="tech-chip">Amazon Web Services (AWS)</span>
+            <span class="tech-chip">Microsoft Azure</span>
+            <span class="tech-chip">Amazon EKS & Azure AKS</span>
+            <span class="tech-chip">Active Directory & Entra ID</span>
+            <span class="tech-chip">Terraform (IaC)</span>
+            <span class="tech-chip">Jenkins Pipelines</span>
+            <span class="tech-chip">PowerShell Scripting</span>
+            <span class="tech-chip">Splunk & Dynatrace Observability</span>
+            <span class="tech-chip">Qualys Vulnerability Management</span>
+        </div>
+
+        <h4 style="margin-top: 18px; margin-bottom: 8px;">Key Engineering Competencies:</h4>
+        <ul style="padding-left: 20px;">
+            <li><strong>Container Platforms:</strong> Version upgrade cycles, node-group scaling, and vulnerability patch remediation across Amazon EKS and Azure AKS clusters.</li>
+            <li><strong>Automated Systems:</strong> End-to-end execution of Systems Manager (SSM) runbooks, automated Active Directory domain resets, and configuration baselines.</li>
+            <li><strong>Web Optimization:</strong> Low-latency client-side security implementations utilizing browser-native Web Crypto APIs (SHA-256) and optimized asset pipelines.</li>
+        </ul>
+    </div>
+
+    <!-- Section 3: Milestones & Chronology -->
+    <div id="milestones" class="wiki-card">
+        <h2 class="section-header">3. Career & Key Milestones</h2>
+        <ul class="timeline-list">
+            <li>
+                <strong>Cloud & Systems Architecture:</strong> Longstanding career delivering core infrastructure services, high-availability multi-cloud designs, and observability for global enterprise systems.
+            </li>
+            <li>
+                <strong>Automation Implementations:</strong> Designed and implemented zero-cost, self-service password reset architectures and PowerShell domain controller automations.
+            </li>
+            <li>
+                <strong>Decade Work Anniversary:</strong> Commemorated a major 10-year organizational career milestone celebrating continuous technology transformation and operational excellence.
+            </li>
+            <li>
+                <strong>Static Web Engine Architecture:</strong> Authored and released the <code>boyapati5335.github.io</code> portal using pure client-side glassmorphism aesthetics, image preloading, and dynamic responsive frames.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 4: Highlights & Media -->
+    <div id="interests" class="wiki-card">
+        <h2 class="section-header">4. Personal Highlights & Media</h2>
+        <p>Featured highlights, visual records, and active personal development pursuits:</p>
+
+        <div class="media-strip">
+            <img src="images/imghome1.webp" onerror="this.src='images/imghome1.JPG'" alt="Visual Highlight 1">
+            <img src="images/imglog1.webp" onerror="this.src='images/imglog1.JPG'" alt="Visual Highlight 2">
+            <img src="images/img3.webp" onerror="this.src='images/img3.JPG'" alt="Visual Highlight 3">
+        </div>
+
+        <p style="margin-top: 15px; font-size: 0.95rem;">
+            Outside of enterprise cloud architecture, ongoing interests include digital media production, high-value sustainable agriculture models, and daily physical wellness habits (maintaining an active 5,000-step daily goal).
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
