@@ -158,6 +158,56 @@
     border: none;
     display: block;
 }
+
+/* Milestone Countdown Widget */
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.countdown-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.countdown-badge {
+    display: inline-block;
+    background: #ffeb3b;
+    color: #121212;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.countdown-days {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1.1;
+    margin: 4px 0;
+}
+
+.countdown-title {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+.countdown-date {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 4px;
+}        
     </style>
 </head>
 <body>
@@ -219,6 +269,14 @@
                 <li>Cloud & Active Directory automation tasks.</li>
             </ul>
         </div>
+
+        <!-- Section: Milestone & Celebration Countdowns -->
+            <div class="section-card">
+            <h3>🎉 Upcoming Milestones & Countdowns</h3>
+             <div id="countdownContainer" class="countdown-grid">
+           <!-- Rendered dynamically by JavaScript -->
+          </div>
+          </div>
 
         <!-- Section 3: Interactive Video Player Widget -->
         <div class="section-card">
@@ -343,7 +401,49 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeLightbox();
     });
-});    
+});  
+
+// --- Milestone Countdown Logic ---
+const MILESTONES = [
+    { title: "Sivaiah's Birthday", month: 8, day: 18, emoji: "🎂" },
+    { title: "Sankranti Festival", month: 1, day: 14, emoji: "🪁" },
+    { title: "Shivanshi's Birthday", month: 10, day: 15, emoji: "🎈" },
+    { title: "New Year Celebration", month: 1, day: 1, emoji: "✨" }
+];
+
+function renderCountdowns() {
+    const container = document.getElementById('countdownContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    const today = new Date();
+
+    MILESTONES.forEach(item => {
+        let currentYear = today.getFullYear();
+        let targetDate = new Date(currentYear, item.month - 1, item.day);
+
+        // If the date has already passed this calendar year, count down to next year's date
+        if (targetDate - today < 0) {
+            targetDate = new Date(currentYear + 1, item.month - 1, item.day);
+        }
+
+        const diffTime = targetDate - today;
+        const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        const card = document.createElement('div');
+        card.className = 'countdown-card';
+        card.innerHTML = `
+            <span class="countdown-badge">${item.emoji} Countdown</span>
+            <div class="countdown-days">${daysLeft} <span style="font-size: 0.9rem; font-weight: normal;">days</span></div>
+            <p class="countdown-title"><strong>${item.title}</strong></p>
+            <div class="countdown-date">${targetDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// Run on load
+document.addEventListener('DOMContentLoaded', renderCountdowns);    
 
 </script>
 <!-- Lightbox Modal -->
