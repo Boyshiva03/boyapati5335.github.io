@@ -312,6 +312,39 @@ function loadPage(pageUrl) {
     }
 }
 
+// --- Lightbox Logic ---
+function openLightbox(src) {
+    const modal = document.getElementById('imageLightbox');
+    const modalImg = document.getElementById('lightboxImg');
+    modalImg.src = src;
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeLightbox() {
+    const modal = document.getElementById('imageLightbox');
+    modal.classList.remove('active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        document.getElementById('lightboxImg').src = '';
+    }, 200);
+}
+
+// Automatically bind click-to-zoom to all gallery images
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.photo-gallery img, .media-strip img').forEach(img => {
+        img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openLightbox(img.src);
+        });
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+    });
+});    
+
 </script>
 <!-- Lightbox Modal -->
 <div id="imageLightbox" class="lightbox-modal" onclick="closeLightbox()">
