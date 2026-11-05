@@ -207,6 +207,93 @@
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.65);
     margin-top: 4px;
+} 
+
+/* Family Noticeboard Widget */
+.noticeboard-input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.notice-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+}
+.notice-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.notice-add-btn {
+    background: #ffeb3b;
+    color: #121212;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+}
+.notice-add-btn:hover {
+    background: #ffd600;
+    transform: scale(1.02);
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.sticky-note {
+    background: rgba(255, 235, 59, 0.2);
+    border: 1px solid rgba(255, 235, 59, 0.45);
+    border-left: 5px solid #ffeb3b;
+    border-radius: 10px;
+    padding: 12px;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-text {
+    font-size: 0.95rem;
+    word-break: break-word;
+    margin-right: 18px;
+}
+
+.sticky-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.sticky-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.sticky-delete-btn:hover {
+    color: #ff4d4d;
 }        
     </style>
 
@@ -297,20 +384,32 @@
           </div>
 
         <!-- Section 3: Interactive Video Player Widget -->
-        <div class="section-card">
-            <h3>🎥 YouTube Highlights</h3>
+            <div class="section-card">
+                <h3>🎥 YouTube Highlights</h3>
+                
+                <div class="video-container">
+                    <iframe id="main-video" src="https://www.youtube.com/embed/k6-K6rHJADI" frameborder="0" allowfullscreen></iframe>
+                </div>
+    
+                <div class="video-chips">
+                    <button class="chip active" onclick="switchVideo('Q58tuXPr8do', this)">Featured Clip</button>
+                    <button class="chip" onclick="switchVideo('Byds93-3C6c', this)">Travel / Vlog</button>
+                    <button class="chip" onclick="switchVideo('Q58tuXPr8do', this)">Music / Beats</button>
+                </div>
+            </div>
+        <!-- Section: Family Noticeboard -->
+            <div class="section-card">
+                <h3>📌 Family Noticeboard & Reminders</h3>
+                
+                <div class="noticeboard-input-row">
+                    <input type="text" id="noteInput" class="notice-input" placeholder="Type a reminder, shopping item, or note...">
+                    <button class="notice-add-btn" type="button" onclick="addNotice()">Pin Note</button>
+                </div>
             
-            <div class="video-container">
-                <iframe id="main-video" src="https://www.youtube.com/embed/k6-K6rHJADI" frameborder="0" allowfullscreen></iframe>
+                <div id="notesContainer" class="notes-grid">
+                    <!-- Rendered dynamically via JavaScript -->
+                </div>
             </div>
-
-            <div class="video-chips">
-                <button class="chip active" onclick="switchVideo('Q58tuXPr8do', this)">Featured Clip</button>
-                <button class="chip" onclick="switchVideo('Byds93-3C6c', this)">Travel / Vlog</button>
-                <button class="chip" onclick="switchVideo('Q58tuXPr8do', this)">Music / Beats</button>
-            </div>
-        </div>
-
         <!-- Section 4: Upcoming Schedule -->
         <div class="section-card">
             <h3>📅 Upcoming Schedule</h3>
@@ -461,7 +560,86 @@ function renderCountdowns() {
 }
 
 // Run on load
-document.addEventListener('DOMContentLoaded', renderCountdowns);    
+document.addEventListener('DOMContentLoaded', renderCountdowns);   
+
+ // --- Family Noticeboard Logic ---
+const DEFAULT_NOTES = [
+    { text: "Water the plants in balcony & garden 🌱", date: "Daily" },
+    { text: "Check weekly family schedule 📅", date: "Weekly" }
+];
+
+function getStoredNotes() {
+    const raw = localStorage.getItem('familyNotes');
+    return raw ? JSON.parse(raw) : DEFAULT_NOTES;
+}
+
+function saveNotes(notes) {
+    localStorage.setItem('familyNotes', JSON.stringify(notes));
+    renderNotes();
+}
+
+function renderNotes() {
+    const container = document.getElementById('notesContainer');
+    if (!container) return;
+
+    const notes = getStoredNotes();
+    container.innerHTML = '';
+
+    if (notes.length === 0) {
+        container.innerHTML = '<p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">No active reminders. Pin a new note above!</p>';
+        return;
+    }
+
+    notes.forEach((note, index) => {
+        const card = document.createElement('div');
+        card.className = 'sticky-note';
+        card.innerHTML = `
+            <button class="sticky-delete-btn" title="Delete Note" onclick="deleteNotice(${index})">&times;</button>
+            <div class="sticky-text">${escapeHtml(note.text)}</div>
+            <div class="sticky-footer">
+                <span>🕒 ${note.date}</span>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function addNotice() {
+    const input = document.getElementById('noteInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const notes = getStoredNotes();
+    const today = new Date();
+    const dateFormatted = today.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+
+    notes.unshift({ text: text, date: dateFormatted });
+    input.value = '';
+    saveNotes(notes);
+}
+
+function deleteNotice(index) {
+    const notes = getStoredNotes();
+    notes.splice(index, 1);
+    saveNotes(notes);
+}
+
+function escapeHtml(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+}
+
+// Allow pressing Enter key inside the note input
+document.addEventListener('DOMContentLoaded', () => {
+    renderNotes();
+    const inputElem = document.getElementById('noteInput');
+    if (inputElem) {
+        inputElem.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addNotice();
+        });
+    }
+});   
 
 </script>
 <!-- Lightbox Modal -->
