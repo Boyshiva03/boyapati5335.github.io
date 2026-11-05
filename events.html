@@ -626,13 +626,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });  
 
 // --- Milestone Countdown Logic ---
-const MILESTONES = [   
-    { title: "Shivanshi's Birthday", month: 2, day: 24, emoji: "🎈" },    
-    { title: "Shiva's Birthday", month: 8, day: 18, emoji: "🎂" },
-    { title: "kushira's Birthday", month: 8, day: 12, emoji: "🎂" },
-    { title: "Sathvi&Anvi's Birthday", month: 10, day: 20, emoji: "🎂" },
-    { title: "New Year Celebration", month: 1, day: 1, emoji: "✨" }
+const MILESTONES = [
+    { title: "Sivaiah's Birthday", month: 8, day: 18, emoji: "🎂" },
     { title: "Sankranti Festival", month: 1, day: 14, emoji: "🪁" },
+    { title: "Shivanshi's Birthday", month: 10, day: 15, emoji: "🎈" },
+    { title: "New Year Celebration", month: 1, day: 1, emoji: "✨" }
 ];
 
 function renderCountdowns() {
@@ -786,9 +784,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- 2. Dynamic YouTube Feed Logic ---
 // You can supply your YouTube Channel ID or an array of video IDs to fetch/render dynamically
 const YOUTUBE_VIDEOS = [
-    { id: 'k6-K6rHJADI', 'cmmPtMp6RCg', title: 'Special Moments & Family Celebrations' },
-    { id: 'Q58tuXPr8do', 'ciQ25qQ-H14', title: 'Travel Diaries & Outdoor Highlights' },
-    { id: 'Byds93-3C6c', 'WPF16fxW0jc', title: 'Weekend Vlog & Fun Moments' }
+    { id: 'k6-K6rHJADI', title: 'Special Moments & Family Celebrations' },
+    { id: 'Q58tuXPr8do', title: 'Travel Diaries & Outdoor Highlights' },
+    { id: 'Byds93-3C6c', title: 'Weekend Vlog & Fun Moments' }
 ];
 
 function playSelectedVideo(videoId) {
