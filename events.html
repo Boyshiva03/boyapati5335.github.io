@@ -409,72 +409,49 @@
 <body>
 <div class="events-grid" border-radius="1px">
     <!-- Top Selector & Controls -->
-    <div class="top-nav-bar" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
-        <div class="dropdown-wrapper">
-            <label for="pageSelect" style="color: rgb(255, 255, 0); font-weight: bold; font-size: 1.25rem; margin-bottom: 4px; display: block;">Choose Page:</label>
-            <select id="pageSelect" class="custom-dropdown" onchange="loadPage(this.value)">    
-                <option value="">home</option>
-                <option value="Sivaiah.html">Boyapati Sivaiah</option>
-                <option value="SivaLeela.html">Boyapati SivaLeela</option>
-                <option value="Shivanshi.html">Boyapati Shivanshi</option>
-            </select>
-        </div>
-        <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">Logout</button>
-    </div>
+                            <div class="top-nav-bar" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+                                <div class="dropdown-wrapper">
+                                    <label for="pageSelect" style="color: rgb(255, 255, 0); font-weight: bold; font-size: 1.25rem; margin-bottom: 4px; display: block;">Choose Page:</label>
+                                    <select id="pageSelect" class="custom-dropdown" onchange="loadPage(this.value)">    
+                                        <option value="">home</option>
+                                        <option value="Sivaiah.html">Boyapati Sivaiah</option>
+                                        <option value="SivaLeela.html">Boyapati SivaLeela</option>
+                                        <option value="Shivanshi.html">Boyapati Shivanshi</option>
+                                    </select>
+                                </div>
+                                <button class="logout-btn" onclick="sessionStorage.clear(); window.location.href='index.html';">Logout</button>
+                            </div>
 
     <!-- Frame Container for Sivaiah.html, SivaLeela.html, etc. -->
-    <div class="frame-wrapper" id="frameWrapper" style="display: none;">
-        <iframe id="displayFrame" class="content-frame" src=""></iframe>
-    </div>
+                            <div class="frame-wrapper" id="frameWrapper" style="display: none;">
+                                <iframe id="displayFrame" class="content-frame" src=""></iframe>
+                            </div>
 
     <!-- Main Dashboard Content (Visible by default until a sub-page is selected) -->
-    <div id="defaultDashboard">
-        <div class="header-bar">
-            <h2 style="color: rgba(255, 255, 0); margin: 1px 1px;">Personal Dashboard</h2>
-        </div>
+                            <div id="defaultDashboard">
+                                <div class="header-bar">
+                                    <h2 style="color: rgba(255, 255, 0); margin: 1px 1px;">Personal Dashboard</h2>
+                                </div>
         
-        <!-- Section 1: Recent Photos -->
-        <div class="section-card">
-            <h3>📸 Recent Photos</h3>
-            <div class="photo-gallery">
-                <img src="images/imghome1.webp" onerror="this.src='images/imghome1.JPG'">
-                <img src="images/imglog1.webp" onerror="this.src='images/imglog1.JPG'">
-                <img src="images/img3.webp" onerror="this.src='images/img3.JPG'">
-            </div>
-        </div>
+     <!-- Section 1: Recent Photos -->
+                        <div class="section-card">
+                            <h3>📸 Recent Photos</h3>
+                            <div class="photo-gallery">
+                                <img src="images/imghome1.webp" onerror="this.src='images/imghome1.JPG'">
+                                <img src="images/imglog1.webp" onerror="this.src='images/imglog1.JPG'">
+                                <img src="images/img3.webp" onerror="this.src='images/img3.JPG'">
+                            </div>
+                        </div>
 
-        <!-- Section 2: Interactive Step & Activity Tracker -->
-        <div class="section-card">
-            <h3>🏃 Daily Steps & Routine Tracker</h3>
-            <p style="margin: 5px 0;">Goal: <strong>5,000 steps</strong> / day</p>
-            
-            <div class="progress-bar-container">
-                <div id="step-bar" class="progress-bar-fill"></div>
-            </div>
-            
-            <p id="step-count-text" style="font-size: 0.9rem; margin: 5px 0;">0 / 5,000 steps (0%)</p>
+    <!-- Section: Milestone & Celebration Countdowns -->
+                            <div class="section-card">
+                            <h3>🎉 Upcoming Milestones & Countdowns</h3>
+                             <div id="countdownContainer" class="countdown-grid">
+                           <!-- Rendered dynamically by JavaScript -->
+                          </div>
+                          </div>
 
-            <div class="tracker-controls">
-                <button class="tracker-btn" onclick="addSteps(1000)">+1,000 Steps</button>
-                <button class="tracker-btn" onclick="addSteps(500)">+500 Steps</button>
-                <button class="tracker-btn" onclick="resetSteps()" style="border-color: #ff6b6b;">Reset</button>
-            </div>
-
-            <ul style="margin-top: 15px;">
-                <li>Daily habit: 5,000 steps walking routine.</li>
-                <li>Cloud & Active Directory automation tasks.</li>
-            </ul>
-        </div>
-
-        <!-- Section: Milestone & Celebration Countdowns -->
-            <div class="section-card">
-            <h3>🎉 Upcoming Milestones & Countdowns</h3>
-             <div id="countdownContainer" class="countdown-grid">
-           <!-- Rendered dynamically by JavaScript -->
-          </div>
-          </div>
-
-        <!-- Section: YouTube Highlights & Channel Feed with Music Player -->
+    <!-- Section: YouTube Highlights & Channel Feed with Music Player -->
                         <div class="section-card">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <h3 style="margin: 0;">🎥 YouTube Channel & Media</h3>
@@ -503,24 +480,47 @@
                             </div>
                         </div>
         <!-- Section: Family Noticeboard -->
-            <div class="section-card">
-                <h3>📌 Family Noticeboard & Reminders</h3>
+                        <div class="section-card">
+                            <h3>📌 Family Noticeboard & Reminders</h3>
+                            
+                            <div class="noticeboard-input-row">
+                                <input type="text" id="noteInput" class="notice-input" placeholder="Type a reminder, shopping item, or note...">
+                                <button class="notice-add-btn" type="button" onclick="addNotice()">Pin Note</button>
+                            </div>
+                        
+                            <div id="notesContainer" class="notes-grid">
+                                <!-- Rendered dynamically via JavaScript -->
+                            </div>
+                        </div>
+        <!-- Section 2: Interactive Step & Activity Tracker -->
+                        <div class="section-card">
+                            <h3>🏃 Daily Steps & Routine Tracker</h3>
+                            <p style="margin: 5px 0;">Goal: <strong>5,000 steps</strong> / day</p>
+                            
+                            <div class="progress-bar-container">
+                                <div id="step-bar" class="progress-bar-fill"></div>
+                            </div>
+                            
+                            <p id="step-count-text" style="font-size: 0.9rem; margin: 5px 0;">0 / 5,000 steps (0%)</p>
                 
-                <div class="noticeboard-input-row">
-                    <input type="text" id="noteInput" class="notice-input" placeholder="Type a reminder, shopping item, or note...">
-                    <button class="notice-add-btn" type="button" onclick="addNotice()">Pin Note</button>
-                </div>
-            
-                <div id="notesContainer" class="notes-grid">
-                    <!-- Rendered dynamically via JavaScript -->
-                </div>
-            </div>
+                            <div class="tracker-controls">
+                                <button class="tracker-btn" onclick="addSteps(1000)">+1,000 Steps</button>
+                                <button class="tracker-btn" onclick="addSteps(500)">+500 Steps</button>
+                                <button class="tracker-btn" onclick="resetSteps()" style="border-color: #ff6b6b;">Reset</button>
+                            </div>
+                
+                            <ul style="margin-top: 15px;">
+                                <li>Daily habit: 5,000 steps walking routine.</li>
+                                <li>Cloud & Active Directory automation tasks.</li>
+                            </ul>
+                        </div>
+        
         <!-- Section 4: Upcoming Schedule -->
-        <div class="section-card">
-            <h3>📅 Upcoming Schedule</h3>
-            <p>• Architecture Review & Automation Check</p>
-            <p>• Weekly Milestone & Family Planning</p>
-        </div>
+                        <div class="section-card">
+                            <h3>Upcoming Schedule</h3>
+                            <p>• Dipavali celebrations</p>
+                            <p>• Weekly Milestone & Family Planning</p>
+                        </div>
     </div>
 </div>
 
