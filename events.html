@@ -294,6 +294,97 @@
 }
 .sticky-delete-btn:hover {
     color: #ff4d4d;
+}   
+
+/* --- Audio Player Widget --- */
+.audio-player-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 12px 18px;
+    margin-top: 15px;
+}
+
+.audio-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.audio-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.audio-subtitle {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 2px 0 0 0;
+}
+
+.audio-btn {
+    background: #ffeb3b;
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #121212;
+    transition: transform 0.15s ease, background 0.2s ease;
+    flex-shrink: 0;
+}
+.audio-btn:hover {
+    transform: scale(1.08);
+    background: #ffd600;
+}
+
+/* --- Dynamic YouTube Video Grid --- */
+.feed-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.feed-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.feed-item:hover {
+    transform: translateY(-3px);
+    border-color: #ffeb3b;
+}
+
+.feed-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+}
+
+.feed-title {
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }        
     </style>
 
@@ -383,20 +474,34 @@
           </div>
           </div>
 
-        <!-- Section 3: Interactive Video Player Widget -->
-            <div class="section-card">
-                <h3>🎥 YouTube Highlights</h3>
-                
-                <div class="video-container">
-                    <iframe id="main-video" src="https://www.youtube.com/embed/k6-K6rHJADI" frameborder="0" allowfullscreen></iframe>
-                </div>
-    
-                <div class="video-chips">
-                    <button class="chip active" onclick="switchVideo('Q58tuXPr8do', this)">Featured Clip</button>
-                    <button class="chip" onclick="switchVideo('Byds93-3C6c', this)">Travel / Vlog</button>
-                    <button class="chip" onclick="switchVideo('Q58tuXPr8do', this)">Music / Beats</button>
-                </div>
-            </div>
+        <!-- Section: YouTube Highlights & Channel Feed with Music Player -->
+                        <div class="section-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3 style="margin: 0;">🎥 YouTube Channel & Media</h3>
+                                <span style="font-size: 0.8rem; color: #ffeb3b; font-weight: bold;">BS_Shivanshi Channel</span>
+                            </div>
+                        
+                            <!-- Active Video Player Frame -->
+                            <div class="video-container" style="margin-top: 15px;">
+                                <iframe id="main-video" src="https://www.youtube.com/embed/k6-K6rHJADI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        
+                            <!-- Mini Audio / Music Player Widget -->
+                            <div class="audio-player-card">
+                                <button id="audioToggleBtn" class="audio-btn" type="button" onclick="toggleAudio()" title="Play / Pause">▶</button>
+                                <div class="audio-info">
+                                    <p id="audioTrackTitle" class="audio-title">Telugu Melodies & Keeravani Classics</p>
+                                    <p class="audio-subtitle">Background Beats • Tap play to stream</p>
+                                </div>
+                                <audio id="bgAudio" preload="none" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                            </div>
+                        
+                            <!-- Dynamic Video Feed / Playlist Items -->
+                            <h4 style="margin: 20px 0 5px 0; font-size: 0.95rem; color: rgba(255, 255, 255, 0.9);">Latest Channel Uploads & Clips:</h4>
+                            <div id="videoFeedContainer" class="feed-container">
+                                <!-- Videos will be populated here dynamically -->
+                            </div>
+                        </div>
         <!-- Section: Family Noticeboard -->
             <div class="section-card">
                 <h3>📌 Family Noticeboard & Reminders</h3>
@@ -639,7 +744,81 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') addNotice();
         });
     }
-});   
+});
+
+// --- 1. Audio / Music Player Logic ---
+function toggleAudio() {
+    const audio = document.getElementById('bgAudio');
+    const btn = document.getElementById('audioToggleBtn');
+
+    if (audio.paused) {
+        audio.play().then(() => {
+            btn.innerHTML = '❚❚';
+            btn.style.background = '#2ea44f';
+            btn.style.color = '#ffffff';
+        }).catch(err => {
+            console.error("Audio playback restricted:", err);
+        });
+    } else {
+        audio.pause();
+        btn.innerHTML = '▶';
+        btn.style.background = '#ffeb3b';
+        btn.style.color = '#121212';
+    }
+}
+
+// Reset button icon if the audio finishes playing
+document.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('bgAudio');
+    if (audio) {
+        audio.addEventListener('ended', () => {
+            const btn = document.getElementById('audioToggleBtn');
+            btn.innerHTML = '▶';
+            btn.style.background = '#ffeb3b';
+            btn.style.color = '#121212';
+        });
+    }
+});
+
+
+// --- 2. Dynamic YouTube Feed Logic ---
+// You can supply your YouTube Channel ID or an array of video IDs to fetch/render dynamically
+const YOUTUBE_VIDEOS = [
+    { id: 'k6-K6rHJADI', title: 'Special Moments & Family Celebrations' },
+    { id: 'Q58tuXPr8do', title: 'Travel Diaries & Outdoor Highlights' },
+    { id: 'Byds93-3C6c', title: 'Weekend Vlog & Fun Moments' }
+];
+
+function playSelectedVideo(videoId) {
+    const player = document.getElementById('main-video');
+    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    player.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function loadDynamicVideoFeed() {
+    const container = document.getElementById('videoFeedContainer');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    YOUTUBE_VIDEOS.forEach(video => {
+        const item = document.createElement('div');
+        item.className = 'feed-item';
+        item.onclick = () => playSelectedVideo(video.id);
+        
+        // High quality YouTube thumbnail URL
+        const thumbUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+
+        item.innerHTML = `
+            <img class="feed-thumb" src="${thumbUrl}" alt="${video.title}" loading="lazy">
+            <div class="feed-title">${video.title}</div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+// Call during initial load
+document.addEventListener('DOMContentLoaded', loadDynamicVideoFeed);    
 
 </script>
 <!-- Lightbox Modal -->
