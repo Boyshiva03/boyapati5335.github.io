@@ -53,10 +53,16 @@
     </div>
 
     <script>
-        // Use your exact file names with uppercase .JPG
+    
+        // Set background image and force full-screen desktop cover
         const myImages = ['images/imghome1.webp'];
         const randomIndex = Math.floor(Math.random() * myImages.length);
+        
         document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundAttachment = "fixed";
 
         // --- Dynamic Greeting & Live Clock Logic ---
 function updateGreetingAndClock() {
