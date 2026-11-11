@@ -6,33 +6,37 @@
     <title>Dashboard - My World</title>
     <link rel="stylesheet" href="style.css">
     <script>
-        const TIMEOUT_DURATION_MS = 15 * 60 * 1000;
-
-        function checkAuth() {
-            const isLoggedIn = sessionStorage.getItem("isLoggedIn");
-            const lastActive = parseInt(sessionStorage.getItem("lastActiveTime"), 10);
-            const now = Date.now();
-
-            if (isLoggedIn !== "true" || !lastActive || (now - lastActive > TIMEOUT_DURATION_MS)) {
-                sessionStorage.clear();
-                window.location.href = "login.html";
-                return false;
+            const TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes
+            
+            function validateSession() {
+                const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+                const lastActive = parseInt(sessionStorage.getItem("lastActiveTime"), 10);
+                const now = Date.now();
+            
+                // If not logged in, timestamp missing, or 15 mins passed since last activity:
+                if (isLoggedIn !== "true" || isNaN(lastActive) || (now - lastActive > TIMEOUT_MS)) {
+                    sessionStorage.clear();
+                    window.location.href = "login.html";
+                    return false;
+                }
+            
+                return true;
             }
-            return true;
-        }
-
-        function recordActivity() {
-            if (sessionStorage.getItem("isLoggedIn") === "true") {
-                sessionStorage.setItem("lastActiveTime", Date.now().toString());
-            }
-        }
-
-        if (checkAuth()) {
-            ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => {
-                window.addEventListener(event, recordActivity, { passive: true });
+            
+            // 1. Check immediately on page load
+            validateSession();
+            
+            // 2. Check every 15 seconds in the background
+            setInterval(validateSession, 15000);
+            
+            // 3. Reset the 15-minute timer whenever the user interacts with the page
+            ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+                window.addEventListener(evt, () => {
+                    if (sessionStorage.getItem("isLoggedIn") === "true") {
+                        sessionStorage.setItem("lastActiveTime", Date.now().toString());
+                    }
+                }, { passive: true });
             });
-            setInterval(checkAuth, 30000);
-        }
     </script>
     <style>
         .events-grid { 
