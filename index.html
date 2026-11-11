@@ -26,11 +26,27 @@
 </head>
 <body>
     <div class="container">        
-        <p>Boyapati Sudheeksha Shivanshi.</p>
-        <p>With Love: <strong>Shiva & Leela</strong></p>
-        <a href="login.html" style="text-decoration: none;">
-            <button id="action-btn">Login</button>
-        </a>
+            <!-- 1. Live Clock & Date Badge -->
+                <div id="liveTimeBadge" class="live-badge">Loading...</div>
+            
+                <!-- 2. Dynamic Greeting -->
+                <h2 id="dynamicGreeting" style="margin: 0; font-size: 1.6rem;">Welcome</h2>
+                <p style="color: rgba(255, 255, 255, 0.85); font-size: 0.9rem; margin-top: 6px; margin-bottom: 0;">
+                    Personal & Family Digital Space
+                </p>
+            
+                <!-- 3. Glassmorphic Feature Pills -->
+                <div class="feature-pills">
+                    <span class="glass-pill">📸 Family Gallery</span>
+                    <span class="glass-pill">🏃 Daily Steps</span>
+                    <span class="glass-pill">🎥 Media Hub</span>
+                    <span class="glass-pill">📌 Noticeboard</span>
+                </div>
+            
+                <!-- Entry Button -->
+                <a id="mainActionBtn" href="login.html" class="action-btn" style="text-decoration: none; display: inline-block;">
+                    Sign In
+                </a>
     </div>
     <div class="welcome-scroll">
     <p><a href="https://youtu.be/vGOchkoT2aw?si=H2RXRoMs1JOHVpI5" target="_blank">Happy Diwali to all 2026</a></p>    
@@ -41,6 +57,57 @@
         const myImages = ['images/imghome1.webp'];
         const randomIndex = Math.floor(Math.random() * myImages.length);
         document.body.style.backgroundImage = "url('" + myImages[randomIndex] + "')";
+
+        // --- Dynamic Greeting & Live Clock Logic ---
+function updateGreetingAndClock() {
+    const now = new Date();
+    const hrs = now.getHours();
+    let greeting = "Welcome";
+
+    if (hrs >= 4 && hrs < 12) {
+        greeting = "Good Morning ☀️";
+    } else if (hrs >= 12 && hrs < 17) {
+        greeting = "Good Afternoon 🌤️";
+    } else if (hrs >= 17 && hrs < 21) {
+        greeting = "Good Evening 🌆";
+    } else {
+        greeting = "Good Night 🌙";
+    }
+
+    const greetingElem = document.getElementById('dynamicGreeting');
+    if (greetingElem) {
+        greetingElem.innerText = `${greeting}, Welcome`;
+    }
+
+    const timeElem = document.getElementById('liveTimeBadge');
+    if (timeElem) {
+        const dateStr = now.toLocaleDateString(undefined, {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric'
+        });
+        const timeStr = now.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        timeElem.innerText = `🕒 ${dateStr} • ${timeStr}`;
+    }
+}
+
+// Initial call and 1-second update interval
+updateGreetingAndClock();
+setInterval(updateGreetingAndClock, 1000);
+
+// Auto-bypass to Dashboard if already authenticated within 15 minutes
+const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+const lastActive = parseInt(sessionStorage.getItem("lastActiveTime"), 10);
+const isValidSession = isLoggedIn === "true" && lastActive && (Date.now() - lastActive < 15 * 60 * 1000);
+
+const actionBtn = document.getElementById('mainActionBtn');
+if (isValidSession && actionBtn) {
+    actionBtn.innerText = "Enter Dashboard →";
+    actionBtn.href = "events.html";
+}
     </script>
 
 </body>
