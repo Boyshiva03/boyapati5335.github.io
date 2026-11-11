@@ -236,3 +236,45 @@ body {
     transform: scale(1.05);
 }
 
+/* Live Clock & Date Badge */
+.live-badge {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.8rem;
+    color: #ffeb3b;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+/* Feature Pills Container */
+.feature-pills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 24px 0;
+}
+
+/* Individual Glass Pill */
+.glass-pill {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    color: #ffffff;
+    font-weight: 500;
+    user-select: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.glass-pill:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
