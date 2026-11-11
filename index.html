@@ -108,6 +108,32 @@ if (isValidSession && actionBtn) {
     actionBtn.innerText = "Enter Dashboard →";
     actionBtn.href = "events.html";
 }
+
+        // --- Seamless Direct Login Bypass Logic ---
+(function checkExistingSession() {
+    const TIMEOUT_DURATION_MS = 15 * 60 * 1000;
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+    const lastActive = parseInt(sessionStorage.getItem("lastActiveTime"), 10);
+    const now = Date.now();
+
+    const actionBtn = document.getElementById('mainActionBtn');
+    if (!actionBtn) return;
+
+    if (isLoggedIn === "true" && lastActive && (now - lastActive < TIMEOUT_DURATION_MS)) {
+        // Refresh active time so visiting index doesn't timeout the user
+        sessionStorage.setItem("lastActiveTime", now.toString());
+
+        // Update button visual state & destination
+        actionBtn.innerText = "Enter Dashboard →";
+        actionBtn.href = "events.html";
+        actionBtn.classList.add("active-session");
+    } else {
+        // Reset to default sign in if timed out or not logged in
+        actionBtn.innerText = "Sign In";
+        actionBtn.href = "login.html";
+        actionBtn.classList.remove("active-session");
+    }
+})();
     </script>
 
 </body>
